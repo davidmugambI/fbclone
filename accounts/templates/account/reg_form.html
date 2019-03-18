@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block body %}
+<div class="container ">
+        <h2 class="heading font-weight-light text-center">SignUp</h2>
+        <hr>
+    </div>
+    <div class="container w-25 card p-4 mt-4 " style="width: 60rem;background-color: beige">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy}}
+            <input type="submit" value="SignUp" class="w-100 text-white text-center my-2 btn btn-info">
+        </form>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block body %}
+
+    <div class="col-md-8">
+        <form method="post">
+        {% csrf_token %}
+    {#        <input type="text">#}
+    {#    {{ form.as_p }}#} <!-- This renders label + forms + elimates errors -->
+    {#        {{ form.erros }}#}<!-- do this 2 add errors to the form below -->
+            {{ form.post }}
+            <br />
+            <input type="submit" value="post">
+        </form>
+        <h2>{{ text }}</h2>
+        {% for post in posts %}
+            <h1>{{ post.post }}</h1>
+            <p>Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+        <h2>Other people</h2>
+        {% for user in users %}
+            {% if user not in friends %}
+            <a href="{% url 'accounts:profile_with_pk' user.pk %} "><h3>{{ user.username }}</h3></a>
+            <a href="{% url 'home:change_friend' operation='add' pk=user.pk %}">
+                <button type="button" class="btn btn-info">Add Friend</button>
+            </a>
+            {% endif %}
+        {% endfor %}
+        <h1>Friends</h1>
+        {% if friend %}
+             {% for f in friend %}
+                    <a href="{% url 'accounts:profile_with_pk' user.pk %} "><h3>{{f.username }}</h3></a>
+                    <a href="{% url 'home:change_friend' operation='remove' pk=f.pk %}">
+                        <button type="button" class="btn btn-default">Remove Friend</button>
+                    </a>
+
+             {% endfor %}
+        {% else %}
+            <p>You have not made friends yet</p>
+        {% endif %}
+    </div>
+{% endblock %}
